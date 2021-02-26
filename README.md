@@ -1,4 +1,4 @@
-# Go (golang) Pomodoro Timer Command (cmdtab)
+# Pomodoro Timer Command in Go
 
 *See [cmdtab](https://github.com/rwxrob/cmdtab) for how to compose
 `pomo` command into your own monolith utilities.*

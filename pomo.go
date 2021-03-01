@@ -9,9 +9,9 @@ import (
 )
 
 func init() {
-	x := cmdtab.New("pomo")
+	x := cmdtab.New("pomo","start","stop","duration")
 	x.Summary = `sets or prints a countdown timer (with tomato)`
-	x.Usage = `[<duration>|clear]`
+	x.Usage = `[start|stop|duration]`
 
 	x.Description = `
 		If a Go time duration is passed then sets the pomo.start config
@@ -31,37 +31,39 @@ func init() {
 			return err
 		}
 
-		// [<duration>|clear]
 		if len(args) > 0 {
 			switch args[0] {
-			case "clear":
-				config.Set("pomo.up", "")
-			case "dur":
-				// TODO valid the duration
-				config.Set("pomo.dur", args[1])
+			case "stop":
+				config.SetSave("pomo.end", "")
+			case "duration":
+				config.SetSave("pomo.duration", args[1])
+				fallthrough
 			case "start":
-				// TODO detect optional duration argument
-				s := config.Get("pomo.dur")
+				s := config.Get("pomo.duration")
 				if s == "" {
 					s = "25m"
-					config.Set("pomo.dur", s)
+					config.Set("pomo.duration", s)
 				}
 				dur, err := time.ParseDuration(s)
 				if err != nil {
 					return err
 				}
-				up := time.Now().Add(dur).Format(time.RFC3339)
-				config.SetSave("pomo.up", up)
+				end := time.Now().Add(dur).Format(time.RFC3339)
+				config.SetSave("pomo.end", end)
 			default:
 				return x.UsageError()
 			}
 			return nil
 		}
-		up, err := time.Parse(time.RFC3339, config.Get("pomo.up"))
+		end := config.Get("pomo.end")
+		if end == "" {
+			return nil
+		}
+		endt, err := time.Parse(time.RFC3339, end)
 		if err != nil {
 			return err
 		}
-		fmt.Printf("🍅 %v\n", up.Sub(time.Now()).Round(time.Second))
+		fmt.Printf("🍅 %v\n", endt.Sub(time.Now()).Round(time.Second))
 		return nil
 	}
 }

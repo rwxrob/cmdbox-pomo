@@ -1,0 +1,4 @@
+github.com/rwxrob/cmdtab v0.4.0 h1:bYePmvIhF95Whv/1qA9ucLxDLXq+coC0T7qsZzKtIs8=
+github.com/rwxrob/cmdtab v0.4.0/go.mod h1:TWGCTFAm9NlO9mR6aUB5dltAhcVK1FTiCzF7WLXwGgQ=
+github.com/rwxrob/conf-go v0.4.2 h1:pqnYEG9eyndr6umc/U2Az87CeWTh/CanCMVBT0m8nJA=
+github.com/rwxrob/conf-go v0.4.2/go.mod h1:DCol+uEzZiZKaerRsEnpUH+T5WrTODBDcrY3a/S+1jA=

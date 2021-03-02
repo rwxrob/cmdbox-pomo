@@ -1,4 +1,4 @@
-package pomo
+package cmd
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	x := cmdtab.New("pomo","start","stop","duration")
+	x := cmdtab.New("pomo", "start", "stop", "duration")
 	x.Summary = `sets or prints a countdown timer (with tomato)`
 	x.Usage = `[start|stop|duration]`
 

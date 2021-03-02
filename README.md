@@ -9,3 +9,8 @@
 [![Go Report Card](https://goreportcard.com/badge/cmdtab-pomo)](https://goreportcard.com/report/cmdtab-pomo)
 [![Coverage](https://gocover.io/_badge/cmdtab-pomo)](https://gocover.io/cmdtab-pomo)
 
+## Add Pomodoro to TMUX
+
+```tmux
+set -g status-left "%A, %B %-e, %Y, %-l:%M%P %Z%0z #(kn pomo)" 
+```

@@ -14,15 +14,28 @@ func init() {
 	x.Usage = `[start|stop|duration]`
 
 	x.Description = `
-		If a Go time duration is passed then sets the pomo.start config
-		value. If no value is passed prints a tomato emoji followed by the
-		duration recmdsing. If <clear> is passed sets pomo.start to empty
-		string.`
+		The *pomo* command assists those with creating scripts and other
+		tools to help them follow the simple Pomodoro method of time boxing.
 
-	// TODO let people set the emojis if different from defaults
-	// TODO add emoji for when over time by whatever amount
-	// TODO add like 5 emojis for past the deadline
-	// TODO consider adding blink support if detected in terminal
+		If no value is passed prints an emoji (default: tomato) followed by
+		the duration remaining unless *pomo.start* is empty in which case it
+		prints nothing allowing it to be called in a loop and included in
+		other tools such as TMUX [set -g status-left "#(cmd pomo)"].
+
+		If *start* is passed sets *pomo.start* to the current time and
+		*pomo.up* to the time at which the current Pomodoro session expires.
+
+		If *stop* is passed sets *pomo.start* to empty string and
+		effectively disables printing anything.
+
+		When *duration* is passed it will change *pomo.duration* and
+		effective call *start* as well.  If no argument to duration is
+		passed it will simply print it.
+
+		When any subcommand or argument other than the above is passed the
+		*duration* subcommand is called and passed the argument.
+
+		If more than two arguments are ever passed prints usage error.`
 
 	x.Method = func(args []string) (err error) {
 		config := conf.New()

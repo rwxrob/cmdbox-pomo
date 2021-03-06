@@ -9,9 +9,9 @@ import (
 )
 
 func init() {
-	x := cmdtab.New("pomo", "start", "stop", "duration")
+	x := cmdtab.New("pomo", "start", "stop", "duration", "emoji")
 	x.Summary = `sets or prints a countdown timer (with tomato)`
-	x.Usage = `[start|stop|duration]`
+	x.Usage = `[start|stop|duration|emoji]`
 
 	x.Description = `
 		The *pomo* command assists those with creating scripts and other
@@ -31,6 +31,9 @@ func init() {
 		When *duration* is passed it will change *pomo.duration* and
 		effective call *start* as well.  If no argument to duration is
 		passed it will simply print it.
+
+    When *emoji* is passed it will change *pomo.emoji* to the argument
+    passed to *emoji*.
 
 		When any subcommand or argument other than the above is passed the
 		*duration* subcommand is called and passed the argument.
@@ -63,6 +66,8 @@ func init() {
 				}
 				end := time.Now().Add(dur).Format(time.RFC3339)
 				config.SetSave("pomo.end", end)
+			case "emoji":
+					config.SetSave("pomo.emoji", args[1])
 			default:
 				return x.UsageError()
 			}
@@ -76,7 +81,11 @@ func init() {
 		if err != nil {
 			return err
 		}
-		fmt.Printf("🍅 %v\n", endt.Sub(time.Now()).Round(time.Second))
+		emoji := config.Get("pomo.emoji")
+		if emoji == "" {
+			emoji = "🍅"
+		}
+		fmt.Printf("%v %v\n", emoji, endt.Sub(time.Now()).Round(time.Second))
 		return nil
 	}
 }

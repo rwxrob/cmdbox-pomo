@@ -50,7 +50,7 @@ func init() {
 		if len(args) > 0 {
 			switch args[0] {
 			case "stop":
-				config.SetSave("pomo.end", "")
+				config.SetSave("pomo.up", "")
 			case "duration":
 				config.SetSave("pomo.duration", args[1])
 				fallthrough
@@ -64,20 +64,20 @@ func init() {
 				if err != nil {
 					return err
 				}
-				end := time.Now().Add(dur).Format(time.RFC3339)
-				config.SetSave("pomo.end", end)
+				up := time.Now().Add(dur).Format(time.RFC3339)
+				config.SetSave("pomo.up", up)
 			case "emoji":
-					config.SetSave("pomo.emoji", args[1])
+				config.SetSave("pomo.emoji", args[1])
 			default:
 				return x.UsageError()
 			}
 			return nil
 		}
-		end := config.Get("pomo.end")
-		if end == "" {
+		up := config.Get("pomo.up")
+		if up == "" {
 			return nil
 		}
-		endt, err := time.Parse(time.RFC3339, end)
+		endt, err := time.Parse(time.RFC3339, up)
 		if err != nil {
 			return err
 		}

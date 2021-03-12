@@ -27,5 +27,6 @@ have Go 1.16 or later installed).
 ### Add Pomodoro to TMUX
 
 ```tmux
+set -g status-interval 1
 set -g status-left "%A, %B %-e, %Y, %-l:%M%P %Z%0z #(pomo)" 
 ```

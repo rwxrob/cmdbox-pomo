@@ -11,7 +11,7 @@ import (
 func init() {
 	x := cmdtab.New("pomo", "start", "stop", "duration", "emoji")
 	x.Summary = `sets or prints a countdown timer (with tomato)`
-	x.Usage = `[start|stop|duration|emoji]`
+	x.Usage = `[start|stop|duration|emoji|emoji.blink]`
 
 	x.Description = `
 		The *pomo* command assists those with creating scripts and other
@@ -34,6 +34,9 @@ func init() {
 
     When *emoji* is passed it will change *pomo.emoji* to the argument
     passed to *emoji*.
+
+    When *emoji.blink* is passed it will change *pomo.emoji.blink* to the
+    argument passed to *emoji.blink*.
 
 		When any subcommand or argument other than the above is passed the
 		*duration* subcommand is called and passed the argument.
@@ -68,6 +71,8 @@ func init() {
 				config.SetSave("pomo.up", up)
 			case "emoji":
 				config.SetSave("pomo.emoji", args[1])
+			case "emoji.blink":
+				config.SetSave("pomo.emoji.blink", args[1])
 			default:
 				return x.UsageError()
 			}
@@ -85,9 +90,10 @@ func init() {
 		if emoji == "" {
 			emoji = "🍅"
 		}
+		blinkEmoji := config.Get("pomo.emoji.blink")
 		timeLeft := endt.Sub(time.Now()).Round(time.Second)
 		if timeLeft < time.Second*30 && timeLeft%(time.Second*2) == 0 {
-			fmt.Printf("%v\n", timeLeft)
+			fmt.Printf("%v %v\n", blinkEmoji, timeLeft)
 			return nil
 		}
 		fmt.Printf("%v %v\n", emoji, timeLeft)

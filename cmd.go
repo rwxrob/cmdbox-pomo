@@ -85,7 +85,12 @@ func init() {
 		if emoji == "" {
 			emoji = "🍅"
 		}
-		fmt.Printf("%v %v\n", emoji, endt.Sub(time.Now()).Round(time.Second))
+		timeLeft := endt.Sub(time.Now()).Round(time.Second)
+		if timeLeft < time.Second*30 && timeLeft%(time.Second*2) == 0 {
+			fmt.Printf("%v\n", timeLeft)
+			return nil
+		}
+		fmt.Printf("%v %v\n", emoji, timeLeft)
 		return nil
 	}
 }

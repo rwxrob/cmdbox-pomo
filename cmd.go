@@ -9,9 +9,10 @@ import (
 )
 
 func init() {
-	x := cmdtab.New("pomo", "start", "stop", "duration", "emoji")
+	x := cmdtab.New("pomo", "start", "stop", "duration", "emoji", "help", "version")
 	x.Summary = `sets or prints a countdown timer (with tomato)`
 	x.Usage = `[start|stop|duration|emoji|emoji.blink]`
+	x.Version = `v1.0.0`
 
 	x.Description = `
 		The *pomo* command assists those with creating scripts and other
@@ -44,7 +45,10 @@ func init() {
 		If more than two arguments are ever passed prints usage error.`
 
 	x.Method = func(args []string) (err error) {
-		config := conf.New()
+		config, err := conf.New()
+		if err != nil {
+			return err
+		}
 		err = config.Load()
 		if err != nil {
 			return err

@@ -1,4 +1,4 @@
-module github.com/rwxrob/cmdtab-pomo
+module github.com/rwxrob/cmdbox-pomo
 
 go 1.16
 

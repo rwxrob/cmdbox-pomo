@@ -1,31 +1,31 @@
 # Pomodoro Timer Command in Go
 
-[![GoDoc](https://godoc.org/cmdtab-pomo?status.svg)](https://godoc.org/cmdtab-pomo)
+[![GoDoc](https://godoc.org/cmdbox-pomo?status.svg)](https://godoc.org/cmdbox-pomo)
 [![License](https://img.shields.io/badge/license-Apache2-brightgreen.svg)](LICENSE)
-[![Go Report Card](https://goreportcard.com/badge/cmdtab-pomo)](https://goreportcard.com/report/cmdtab-pomo)
-
-## Composing `pomo` into Monolith
-
-See [cmdtab](https://github.com/rwxrob/cmdtab) for how to compose
-into your own monolith command in which case `pomo` will become 
-subcommand action.
+[![Go Report
+Card](https://goreportcard.com/badge/cmdbox-pomo)](https://goreportcard.com/report/cmdbox-pomo)
 
 ## Install `pomo` as Standalone
 
-The `pomo` command can be used as a standalone program (even though it
-is also designed to be modularly used in a
-[`cmdtab`](https://github.com/rwxrob/cmdtab) monolith command).
+The `pomo` command can be used as a standalone program
 
 ```
-go get github.com/rwxrob/cmdtab-pomo/pomo
+go get github.com/rwxrob/cmdbox-pomo/pomo
 ```
 
 That's it. It will download, compile and install `pomo` (provided you
 have Go 1.16 or later installed).
 
-*Other packaging and distribution methods are being considered.*
+## Usage
 
-### Add Pomodoro to TMUX
+```
+pomo help
+```
+
+## Add Pomodoro to TMUX
+
+Here's an example of how to add `pomo` to your TMUX configuration. Your
+mileage may vary.
 
 ```tmux
 set -g status-interval 1

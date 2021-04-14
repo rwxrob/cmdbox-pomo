@@ -78,8 +78,7 @@ func init() {
 			case "emoji.blink":
 				config.SetSave("pomo.emoji.blink", args[1])
 			case "file":
-				configFile := config.Path()
-				fmt.Printf("Configuration file: %s\n", configFile)
+				fmt.Println(config.Path())
 				return nil
 			default:
 				return x.UsageError()

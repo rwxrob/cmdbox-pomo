@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/rwxrob/cmdtab"
+	"github.com/rwxrob/cmdbox"
 	"github.com/rwxrob/conf-go"
 )
 
 func init() {
-	x := cmdtab.New("pomo", "start", "stop", "duration", "emoji", "help", "version")
+	x := cmdbox.New("pomo", "start", "stop", "duration", "emoji", "help", "version")
 	x.Summary = `sets or prints a countdown timer (with tomato)`
 	x.Usage = `[start|stop|duration|emoji|emoji.blink]`
 	x.Version = `v1.0.0`

@@ -1,8 +1,4 @@
-github.com/rwxrob/cmdtab v0.5.0 h1:WrzKLQDyoXk+jIHUjIY2u59tBzcbYXAbqOeynXLnGiA=
-github.com/rwxrob/cmdtab v0.5.0/go.mod h1:TWGCTFAm9NlO9mR6aUB5dltAhcVK1FTiCzF7WLXwGgQ=
-github.com/rwxrob/cmdtab v0.8.0 h1:73Xj/KTAln+wVXVBp1AgEoCN01/qfHw0j9uikDtXxqI=
-github.com/rwxrob/cmdtab v0.8.0/go.mod h1:TWGCTFAm9NlO9mR6aUB5dltAhcVK1FTiCzF7WLXwGgQ=
-github.com/rwxrob/conf-go v0.6.0 h1:NtoXTFPqN2PL3dBa0HVnH0G45zKeSSrs4DsWriLZgno=
-github.com/rwxrob/conf-go v0.6.0/go.mod h1:DCol+uEzZiZKaerRsEnpUH+T5WrTODBDcrY3a/S+1jA=
+github.com/rwxrob/cmdbox v0.0.1 h1:brBW81zW76Zt8as9JsQvZlMF6tRu8eXwKBRQzApIXeY=
+github.com/rwxrob/cmdbox v0.0.1/go.mod h1:J7GCFdZ6kvjUj8RlDbJ6mLjTXsi0fj64Wzn2/fX8R8o=
 github.com/rwxrob/conf-go v0.7.0 h1:n3kYiksQE3WXEsKW0oJAVt2/sWg3jrsd8lYss+eydTY=
 github.com/rwxrob/conf-go v0.7.0/go.mod h1:DCol+uEzZiZKaerRsEnpUH+T5WrTODBDcrY3a/S+1jA=

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/rwxrob/cmdtab"
+	"github.com/rwxrob/cmdbox"
 	_ "github.com/rwxrob/cmdbox-pomo"
 )
 
 func main() {
-	cmdtab.Execute("pomo")
+	cmdbox.Execute("pomo")
 }

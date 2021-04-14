@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/rwxrob/cmdbox"
+	"github.com/rwxrob/cmdtab"
 	"github.com/rwxrob/conf-go"
 )
 
 func init() {
-	x := cmdbox.New("pomo", "start", "stop", "duration", "emoji", "help", "version")
+	x := cmdtab.New("pomo", "start", "stop", "duration", "emoji", "help", "version", "file")
 	x.Summary = `sets or prints a countdown timer (with tomato)`
 	x.Usage = `[start|stop|duration|emoji|emoji.blink]`
 	x.Version = `v1.0.0`
@@ -77,6 +77,10 @@ func init() {
 				config.SetSave("pomo.emoji", args[1])
 			case "emoji.blink":
 				config.SetSave("pomo.emoji.blink", args[1])
+			case "file":
+				configFile := config.Path()
+				fmt.Printf("Configuration file: %s\n", configFile)
+				return nil
 			default:
 				return x.UsageError()
 			}

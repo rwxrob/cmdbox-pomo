@@ -59,7 +59,15 @@ func init() {
 			case "stop":
 				config.SetSave("pomo.up", "")
 			case "duration":
-				config.SetSave("pomo.duration", args[1])
+				if len(args) > 1 {
+					dur := args[1]
+					if _, err := time.ParseDuration(dur); err != nil {
+						return err
+					}
+					config.SetSave("pomo.duration", dur)
+				} else {
+					config.SetSave("pomo.duration", "")
+				}
 				fallthrough
 			case "start":
 				s := config.Get("pomo.duration")

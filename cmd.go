@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/rwxrob/cmdbox"
@@ -9,82 +10,66 @@ import (
 )
 
 func init() {
-	x := cmdbox.New("pomo", "start", "stop", "duration", "emoji", "help", "version", "file")
-	x.Summary = `sets or prints a countdown timer (with tomato)`
-	x.Usage = `[start|stop|duration|emoji|emoji.blink]`
-	x.Version = `v1.0.0`
 
+	config := conf.NewMap()
+	if config == nil {
+		log.Printf("failed to create configuration map")
+		return
+	}
+
+	x := cmdbox.Add("pomo", "show", "start", "stop",
+		"duration", "emoji", "help", "version", "file")
+	x.Default = "pomo show"
+	x.Summary = `sets or prints a countdown timer (with tomato)`
+	x.Version = `v2.0.0`
+	x.Source = `https://github.com/rwxrob/cmdbox-pomo`
+	x.Issues = `https://github.com/rwxrob/cmdbox-pomo/issues`
 	x.Description = `
 		The *pomo* command assists those with creating scripts and other
 		tools to help them follow the simple Pomodoro method of time boxing.
+		When called without arguments *pomo show* is assumed.`
 
-		If no value is passed prints an emoji (default: tomato) followed by
-		the duration remaining unless *pomo.start* is empty in which case it
-		prints nothing allowing it to be called in a loop and included in
-		other tools such as TMUX [set -g status-left "#(cmd pomo)"].
+	x = cmdbox.Add("pomo file")
+	x.Summary = `show full path to configuration file`
+	x.Method = func(args ...string) error {
+		fmt.Println(config.Path())
+		return nil
+	}
 
-		If *start* is passed sets *pomo.start* to the current time and
-		*pomo.up* to the time at which the current Pomodoro session expires.
-
-		If *stop* is passed sets *pomo.start* to empty string and
-		effectively disables printing anything.
-
-		When *duration* is passed it will change *pomo.duration* and
-		effective call *start* as well.  If no argument to duration is
-		passed it will simply print it.
-
-    When *emoji* is passed it will change *pomo.emoji* to the argument
-    passed to *emoji*.
-
-    When *emoji.blink* is passed it will change *pomo.emoji.blink* to the
-    argument passed to *emoji.blink*.
-
-		When any subcommand or argument other than the above is passed the
-		*duration* subcommand is called and passed the argument.
-
-		If more than two arguments are ever passed prints usage error.`
-
-	x.Method = func(args []string) (err error) {
-		config, err := conf.New()
-		if err != nil {
-			return err
+	x = cmdbox.Add("pomo blink")
+	x.Usage = `[NEW]`
+	x.Summary = `show or set the current blinking emoji`
+	x.Method = func(args ...string) error {
+		if len(args) == 0 {
+			fmt.Println(config.Get("pomo.emoji.blink"))
+		} else {
+			config.Set("pomo.emoji.blink", args[0])
 		}
-		err = config.Load()
-		if err != nil {
-			return err
-		}
+		return nil
+	}
 
-		if len(args) > 0 {
-			switch args[0] {
-			case "stop":
-				config.SetSave("pomo.up", "")
-			case "duration":
-				config.SetSave("pomo.duration", args[1])
-				fallthrough
-			case "start":
-				s := config.Get("pomo.duration")
-				if s == "" {
-					s = "25m"
-					config.Set("pomo.duration", s)
-				}
-				dur, err := time.ParseDuration(s)
-				if err != nil {
-					return err
-				}
-				up := time.Now().Add(dur).Format(time.RFC3339)
-				config.SetSave("pomo.up", up)
-			case "emoji":
-				config.SetSave("pomo.emoji", args[1])
-			case "emoji.blink":
-				config.SetSave("pomo.emoji.blink", args[1])
-			case "file":
-				fmt.Println(config.Path())
-				return nil
-			default:
-				return x.UsageError()
-			}
-			return nil
+	x = cmdbox.Add("pomo emoji")
+	x.Usage = `[NEW]`
+	x.Summary = `show or set the current emoji`
+	x.Method = func(args ...string) error {
+		if len(args) == 0 {
+			fmt.Println(config.Get("pomo.emoji"))
+		} else {
+			config.Set("pomo.emoji", args[0])
 		}
+		return nil
+	}
+
+	x = cmdbox.Add("pomo stop")
+	x.Summary = `stop the pomo timer without resetting`
+	x.Method = func(args ...string) error {
+		config.Set("pomo.up", "")
+		return nil
+	}
+
+	x = cmdbox.Add("pomo show")
+	x.Summary = `show the current pomo timer (default)`
+	x.Method = func(args ...string) error {
 		up := config.Get("pomo.up")
 		if up == "" {
 			return nil
@@ -106,4 +91,34 @@ func init() {
 		fmt.Printf("%v %v\n", emoji, timeLeft)
 		return nil
 	}
+
+	x = cmdbox.Add("pomo start")
+	x.Summary = `start the current pomo timer (without showing)`
+	x.Method = func(args ...string) error {
+		s := config.Get("pomo.duration")
+		if s == "" {
+			s = "25m"
+			config.Set("pomo.duration", s)
+		}
+		dur, err := time.ParseDuration(s)
+		if err != nil {
+			return err
+		}
+		up := time.Now().Add(dur).Format(time.RFC3339)
+		config.Set("pomo.up", up)
+		return nil
+	}
+
+	x = cmdbox.Add("pomo duration")
+	x.Usage = "[NEW]"
+	x.Summary = `show duration or set new and start`
+	x.Method = func(args ...string) error {
+		if len(args) > 0 {
+			config.Set("pomo.duration", args[0])
+			return x.Call("pomo start")
+		}
+		fmt.Println(config.Get("pomo.duration"))
+		return nil
+	}
+
 }

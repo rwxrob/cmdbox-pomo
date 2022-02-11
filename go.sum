@@ -1,4 +1,7 @@
-github.com/rwxrob/cmdbox v0.0.1 h1:brBW81zW76Zt8as9JsQvZlMF6tRu8eXwKBRQzApIXeY=
-github.com/rwxrob/cmdbox v0.0.1/go.mod h1:J7GCFdZ6kvjUj8RlDbJ6mLjTXsi0fj64Wzn2/fX8R8o=
-github.com/rwxrob/conf-go v0.7.0 h1:n3kYiksQE3WXEsKW0oJAVt2/sWg3jrsd8lYss+eydTY=
-github.com/rwxrob/conf-go v0.7.0/go.mod h1:DCol+uEzZiZKaerRsEnpUH+T5WrTODBDcrY3a/S+1jA=
+github.com/rwxrob/cmdbox v0.7.5 h1:xmSneU8xcKprf2DYlnz7Q6qVZ+mhmKAmI9H9DdNeIl0=
+github.com/rwxrob/cmdbox v0.7.5/go.mod h1:4jD2kfSvWIpaAHhxuz29APMa9AZF+bKYhKJUqRaBi00=
+github.com/rwxrob/conf-go v1.1.1 h1:/mMJnYoAWVu57iF7ZPusBdxqKGC11q84MkeuSYO7uTo=
+github.com/rwxrob/conf-go v1.1.1/go.mod h1:xcSygMG7HCmgewk49kaM0QCmeQs5f1i2u+D82Y5sHJo=
+gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
+gopkg.in/yaml.v2 v2.4.0 h1:D8xgwECY7CYvx+Y2n4sBz93Jn9JRvxdiyyo8CTfuKaY=
+gopkg.in/yaml.v2 v2.4.0/go.mod h1:RDklbk79AGWmwhnvt/jBztapEOGDOx6ZbXqjP6csGnQ=

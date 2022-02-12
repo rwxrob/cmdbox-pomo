@@ -17,9 +17,36 @@ func init() {
 		return
 	}
 
+	setDefaults := func() {
+		v := config.Get("pomo.duration")
+		if v == "" {
+			v = "25m"
+			config.Set("pomo.duration", v)
+		}
+		v = config.Get("pomo.warning")
+		if v == "" {
+			v = "1m"
+			config.Set("pomo.warning", v)
+		}
+		v = config.Get("pomo.emoji")
+		if v == "" {
+			v = "🍅"
+			config.Set("pomo.emoji", v)
+		}
+		v = config.Get("pomo.warning.emoji")
+		if v == "" {
+			v = "💢"
+			config.Set("pomo.warning.emoji", v)
+		}
+	}
+
 	x := cmdbox.Add("pomo", "show", "start", "stop",
-		"duration", "emoji", "help", "version", "file")
+		"d|dur|duration", "emoji", "we|warning.emoji", "w|warn|warning",
+		"h|help", "v|version", "f|file", "e|vi|ed|edit", "up",
+	)
+
 	x.Default = "pomo show"
+	x.Hidden = []string{"up"}
 	x.Summary = `sets or prints a countdown timer (with tomato)`
 	x.Version = `v2.0.0`
 	x.Source = `https://github.com/rwxrob/cmdbox-pomo`
@@ -36,21 +63,28 @@ func init() {
 		return nil
 	}
 
-	x = cmdbox.Add("pomo blink")
+	x = cmdbox.Add("pomo up")
+	x.Summary = `show date/time started`
+	x.Method = func(args ...string) error {
+		fmt.Println(config.Get("pomo.up"))
+		return nil
+	}
+
+	x = cmdbox.Add("pomo warning.emoji")
 	x.Usage = `[NEW]`
-	x.Summary = `show or set the current blinking emoji`
+	x.Summary = `show/set warning emoji`
 	x.Method = func(args ...string) error {
 		if len(args) == 0 {
-			fmt.Println(config.Get("pomo.emoji.blink"))
+			fmt.Println(config.Get("pomo.warning.emoji"))
 		} else {
-			config.Set("pomo.emoji.blink", args[0])
+			config.Set("pomo warning.emoji", args[0])
 		}
 		return nil
 	}
 
 	x = cmdbox.Add("pomo emoji")
 	x.Usage = `[NEW]`
-	x.Summary = `show or set the current emoji`
+	x.Summary = `show/set current emoji`
 	x.Method = func(args ...string) error {
 		if len(args) == 0 {
 			fmt.Println(config.Get("pomo.emoji"))
@@ -61,7 +95,7 @@ func init() {
 	}
 
 	x = cmdbox.Add("pomo stop")
-	x.Summary = `stop the pomo timer without resetting`
+	x.Summary = `stop pomo timer without resetting`
 	x.Method = func(args ...string) error {
 		config.Set("pomo.up", "")
 		return nil
@@ -79,27 +113,25 @@ func init() {
 			return err
 		}
 		emoji := config.Get("pomo.emoji")
-		if emoji == "" {
-			emoji = "🍅"
+		warnEmoji := config.Get("pomo.warning.emoji")
+		warning, err := time.ParseDuration(config.Get("pomo.warning"))
+		if err != nil {
+			return err
 		}
-		blinkEmoji := config.Get("pomo.emoji.blink")
 		timeLeft := endt.Sub(time.Now()).Round(time.Second)
-		if timeLeft < time.Second*30 && timeLeft%(time.Second*2) == 0 {
-			fmt.Printf("%v %v\n", blinkEmoji, timeLeft)
+		if timeLeft < warning && timeLeft%(time.Second*2) == 0 {
+			fmt.Printf("%v%v\n", warnEmoji, timeLeft)
 			return nil
 		}
-		fmt.Printf("%v %v\n", emoji, timeLeft)
+		fmt.Printf("%v%v\n", emoji, timeLeft)
 		return nil
 	}
 
 	x = cmdbox.Add("pomo start")
 	x.Summary = `start the current pomo timer (without showing)`
 	x.Method = func(args ...string) error {
+		setDefaults()
 		s := config.Get("pomo.duration")
-		if s == "" {
-			s = "25m"
-			config.Set("pomo.duration", s)
-		}
 		dur, err := time.ParseDuration(s)
 		if err != nil {
 			return err
@@ -111,7 +143,7 @@ func init() {
 
 	x = cmdbox.Add("pomo duration")
 	x.Usage = "[NEW]"
-	x.Summary = `show duration or set new and start`
+	x.Summary = `show/set duration and start over`
 	x.Method = func(args ...string) error {
 		if len(args) > 0 {
 			config.Set("pomo.duration", args[0])
@@ -119,6 +151,23 @@ func init() {
 		}
 		fmt.Println(config.Get("pomo.duration"))
 		return nil
+	}
+
+	x = cmdbox.Add("pomo warning")
+	x.Usage = "[NEW]"
+	x.Summary = `show/set warning seconds remaining`
+	x.Method = func(args ...string) error {
+		if len(args) > 0 {
+			config.Set("pomo.warning", args[0])
+		}
+		fmt.Println(config.Get("pomo.warning"))
+		return nil
+	}
+
+	x = cmdbox.Add("pomo edit")
+	x.Summary = `edit pomo configuration file`
+	x.Method = func(args ...string) error {
+		return config.Edit()
 	}
 
 }

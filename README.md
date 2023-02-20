@@ -1,4 +1,6 @@
-# Pomodoro Timer Command in Go
+# DEPRECATED: Pomodoro Timer Command in Go
+
+***🛑 Use <https://github.com/rwxrob/pomo> instead. This version is no longer supported but will remain for those who have already started using it.***
 
 [![GoDoc](https://godoc.org/cmdbox-pomo?status.svg)](https://godoc.org/cmdbox-pomo)
 [![License](https://img.shields.io/badge/license-Apache2-brightgreen.svg)](LICENSE)
